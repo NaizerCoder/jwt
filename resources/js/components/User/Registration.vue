@@ -28,8 +28,7 @@ export default {
         store(){
             axios.post('/api/users', {name: this.name, email: this.email, password: this.password, password_confirmation: this.password_confirmation })
                 .then( res => {
-
-                    console.log(res.data);
+                    console.log(res);
                 })
         }
     }
