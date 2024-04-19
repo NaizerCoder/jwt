@@ -22,3 +22,7 @@ Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'users'], 
     Route::post('/', 'StoreController');
 });
 
+Route::group(['namespace' => 'App\Http\Controllers\Fruit', 'prefix' => 'fruits'], function(){
+    Route::get('/', 'IndexController');
+});
+

@@ -2,7 +2,7 @@ import * as VueRouter from "vue-router";
 
 export default VueRouter.createRouter ({
 
-    history: VueRouter.createWebHistory('/'),
+    history: VueRouter.createWebHistory(),
     routes: [
         {
             path:'/fruit',
