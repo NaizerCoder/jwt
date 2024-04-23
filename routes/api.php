@@ -36,7 +36,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
         Route::group(['namespace' => 'App\Http\Controllers\Fruit', 'prefix' => 'fruits'], function(){
             Route::get('/', 'IndexController');
         });
-    }),
+    });
 
 
 });

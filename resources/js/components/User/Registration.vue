@@ -24,6 +24,10 @@ export default {
         }
     },
 
+    mounted() {
+        console.log(localStorage.getItem('access_token'));
+    },
+
     methods: {
         store(){
             axios.post('/api/users', {name: this.name, email: this.email, password: this.password, password_confirmation: this.password_confirmation })

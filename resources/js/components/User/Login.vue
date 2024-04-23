@@ -24,10 +24,15 @@ export default {
             axios.post('/api/auth/login',{'email':this.email, 'password':this.password})
                 .then( result => {
 
-                    localStorage.setItem('access_token',result.data.access_token);
-                    console.log(result.data);
-                })
+                    // const data = {
+                    //     name:'test',
+                    //     token: result.data.access_token,
+                    // }
 
+                    localStorage.setItem('access_token',result.data.access_token);
+                    // localStorage.setItem('someData',JSON.stringify(data))
+                    // console.log(JSON.parse(localStorage.getItem('someData')));
+                })
         }
     }
 }
