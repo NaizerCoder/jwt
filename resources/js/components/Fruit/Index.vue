@@ -23,23 +23,51 @@
 <script>
 export default {
     name: "Fruits",
-    data(){
+    data() {
         return {
-            fruits:{},
+            fruits: {},
+            api:{}
         }
     },
 
     mounted() {
+        this.initApi();
         this.getFruit();
     },
 
-    methods:{
-        getFruit(){
-            axios.get('/api/fruits')
-                .then( res => {
+    methods: {
+        getFruit() {
+            this.api.get('/api/auth/fruits')
+            // axios.get('/api/auth/fruits'
+            //     ,{
+            //
+            //         headers: {
+            //             'authorization': `Bearer ${localStorage.getItem('access_token')}`
+            //         }
+            //
+            //     }
+            //     )
+                .then(res => {
                     //console.log(res.data);
                     this.fruits = res.data.data
                 })
+        },
+
+        initApi(){
+            const api = axios.create();
+
+            api.interceptors.request.use(config => {
+
+                config.headers = {
+                        'authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    }
+
+                },
+            error => {
+                console.log(222);
+            })
+
+            this.api = api
         }
 
     }
