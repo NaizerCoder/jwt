@@ -30,6 +30,7 @@ export default {
                     // }
 
                     localStorage.setItem('access_token',result.data.access_token);
+                    this.$router.push({name: 'user.personal'})
                     // localStorage.setItem('someData',JSON.stringify(data))
                     // console.log(JSON.parse(localStorage.getItem('someData')));
                 })
