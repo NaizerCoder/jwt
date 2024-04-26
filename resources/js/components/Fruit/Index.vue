@@ -48,7 +48,7 @@ export default {
                 //     }
                 //     )
                 .then(res => {
-                    //console.log(res.data);
+                    //console.log(res);
                     this.fruits = res.data.data
                 })
         },
