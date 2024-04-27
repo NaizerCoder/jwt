@@ -1,6 +1,6 @@
 import * as VueRouter from "vue-router";
 
-export default VueRouter.createRouter ({
+const route = VueRouter.createRouter ({
 
     history: VueRouter.createWebHistory(),
     routes: [
@@ -27,6 +27,35 @@ export default VueRouter.createRouter ({
             component: () => import('./components/User/Personal.vue'),
             name:'user.personal'
         },
+
+        {
+            path:'/:catchAll(.*)', component: () => import('./components/User/Personal.vue'),
+            name:'404'
+        },
     ],
 
 })
+
+route.beforeEach( (to, from,next) => {
+    // console.log(to.name);
+
+    const access_token = localStorage.getItem('access_token')
+    if( to.name!=='user.login'){
+        if(!access_token){
+            return next({
+                name:'user.login'
+            })
+        }
+    }
+    if (to.name === 'user.login' && access_token){
+
+        return next({
+            name:'user.personal'
+        })
+
+    }
+
+    next()
+})
+
+export default route
