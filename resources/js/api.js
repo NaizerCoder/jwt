@@ -29,8 +29,8 @@ api.interceptors.response.use({}, error => {
             }
         ).then(res => {
             localStorage.setItem('access_token',res.data.access_token)
-            error.config.headers.authorization = `Bearer ${res.data.access_token}`
-            return api.request(error.config)
+            error.config.headers.authorization = `Bearer ${res.data.access_token}` //обновить конфиг
+            return api.request(error.config) //вызвать новый конфиг
         })
 
     }

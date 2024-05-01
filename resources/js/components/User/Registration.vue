@@ -5,6 +5,7 @@
         <input v-model="email" type="email" class="form-control mb-1 mt-3" placeholder="E-mail">
         <input v-model="password" type="password" class="form-control mb-3" placeholder="Password">
         <input v-model="password_confirmation" type="password" class="form-control mb-3" placeholder="Confirm password">
+        <div v-if="error" class="text-danger">{{this.error}}</div>
         <input @click.prevent="store" type="submit" class="btn btn-success">
     </div>
 
@@ -21,18 +22,23 @@ export default {
             email: null,
             password: null,
             password_confirmation: null,
+            error:null,
         }
     },
 
     mounted() {
-        console.log(localStorage.getItem('access_token'));
+        //console.log(localStorage.getItem('access_token'));
     },
 
     methods: {
         store(){
             axios.post('/api/users', {name: this.name, email: this.email, password: this.password, password_confirmation: this.password_confirmation })
                 .then( res => {
-                    console.log(res);
+                    localStorage.setItem('access_token',res.data.access_token)
+                    this.$router.push({name: 'user.personal'})
+                })
+                .catch( error => {
+                    this.error = error.response.data.error
                 })
         }
     }
