@@ -16,8 +16,8 @@ class StoreController extends Controller
 
         $data['password'] = Hash::make($data['password']);
         $data['password_confirmation'] = Hash::make($data['password_confirmation']);
-        $user = User::where('email',$data['email'])->first();
 
+        $user = User::where('email', $data['email'])->first();
         if($user) return response(['error' => 'Пользователь уже существует'],403);
 
         $user = User::create($data);

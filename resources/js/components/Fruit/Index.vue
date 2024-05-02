@@ -1,6 +1,8 @@
 <template>
     <div>
-
+        <b-spinner variant="primary" label="Spinning"></b-spinner>
+    </div>
+    <div>
         <table class="table table-bordered w-25 mt-3">
             <thead>
             <tr>

@@ -1,13 +1,36 @@
 <template>
 
-    <div class="w-25">
-        <input v-model="name" type="text" class="form-control mb-1 mt-3" placeholder="Name">
-        <input v-model="email" type="email" class="form-control mb-1 mt-3" placeholder="E-mail">
-        <input v-model="password" type="password" class="form-control mb-3" placeholder="Password">
-        <input v-model="password_confirmation" type="password" class="form-control mb-3" placeholder="Confirm password">
-        <div v-if="error" class="text-danger">{{this.error}}</div>
-        <input @click.prevent="store" type="submit" class="btn btn-success">
+    <div class="input-group mb-3">
+        <span class="input-group-text bg-primary"><i class="bi bi-person-plus-fill text-white"></i></span>
+        <input v-model="name" @keyup.enter="store" type="text" class="form-control" placeholder="Имя">
     </div>
+    <div v-if="this.errors.user.name" class="text-danger" style="margin-top: -10px">{{ this.errors.user.name }}</div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text bg-primary"><i class="bi bi-person-plus-fill text-white"></i></span>
+        <input v-model="email" @keyup.enter="store" type="email" class="form-control" placeholder="E-mail">
+    </div>
+    <div v-if="this.errors.email" class="text-danger" style="margin-top: -10px">{{ this.errors.email }}</div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text bg-primary"><i class="bi bi-person-plus-fill text-white"></i></span>
+        <input v-model="password" @keyup.enter="store" type="password" class="form-control" placeholder="Пароль">
+    </div>
+    <div v-if="this.errors.password" class="text-danger" style="margin-top: -10px">{{ this.errors.password }}</div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text bg-primary"><i class="bi bi-person-plus-fill text-white"></i></span>
+        <input v-model="password_confirmation"  @keyup.enter="store" type="password" class="form-control" placeholder="Повторите пароль">
+    </div>
+    <div v-if="this.errors.password_confirmation" class="text-danger" style="margin-top: -10px">
+        {{ this.errors.password_confirmation }}
+    </div>
+
+    <div v-if="this.errors.user.exist" class="text-danger" style="margin-top: -10px">{{ this.errors.user.exist }}</div>
+
+    <button @click.prevent="store" class="btn btn-primary text-center" type="submit">
+        Регистрация
+    </button>
 
 </template>
 
@@ -15,14 +38,22 @@
 export default {
     name: "Registration",
 
-    data(){
+    data() {
 
-        return{
+        return {
             name: null,
             email: null,
             password: null,
             password_confirmation: null,
-            error:null,
+            errors: {
+                user: {
+                    exist: null,
+                    name: null,
+                },
+                email: null,
+                password: null,
+                password_confirmation: null,
+            }
         }
     },
 
@@ -31,14 +62,32 @@ export default {
     },
 
     methods: {
-        store(){
-            axios.post('/api/users', {name: this.name, email: this.email, password: this.password, password_confirmation: this.password_confirmation })
-                .then( res => {
-                    localStorage.setItem('access_token',res.data.access_token)
+        store() {
+            axios.post('/api/users', {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+                password_confirmation: this.password_confirmation
+            })
+                .then(res => {
+                    //console.log(res)
+                    localStorage.setItem('access_token', res.data.access_token)
                     this.$router.push({name: 'user.personal'})
+
                 })
-                .catch( error => {
-                    this.error = error.response.data.error
+                .catch(error => {
+
+                    if (error.response.data.errors) {
+                        this.errors.user.name = (error.response.data.errors.name) ? error.response.data.errors.name[0] : null
+                        this.errors.email = (error.response.data.errors.email) ? error.response.data.errors.email[0] : null
+                        this.errors.password = (error.response.data.errors.password) ? error.response.data.errors.password[0] : null
+                        this.errors.password_confirmation = (error.response.data.errors.password_confirmation) ?  error.response.data.errors.password_confirmation[0] : null
+                    }
+                    if(error.response.data.error){
+                        this.errors.user.name = this.errors.email = this.errors.password = this.errors.password_confirmation = null
+                        this.errors.user.exist = error.response.data.error
+                    }
+
                 })
         }
     }
