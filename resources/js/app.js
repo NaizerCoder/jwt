@@ -6,11 +6,10 @@ import router from "./router.js";
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import './bootstrap';
 
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import BootstrapVue3 from "bootstrap-vue-3";
 
-// Import Bootstrap and BootstrapVue CSS files (order is important)
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
 
 const app = createApp({
     el: '#app',
@@ -20,10 +19,7 @@ const app = createApp({
 });
 
 app.use(router)
-// Make BootstrapVue available throughout your project
-app.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
-//app.use(IconsPlugin)
+app.use(BootstrapVue3);
 app.mount('#app');
 
 
