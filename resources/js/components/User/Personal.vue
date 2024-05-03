@@ -1,6 +1,9 @@
 <template>
+    <div v-if="spinner" class="z-2 p-5">
+        <b-spinner small variant="primary" label="Spinning"></b-spinner>
+    </div>
     <div>
-        <table class="table">
+        <table v-if="!spinner" class="table">
             <thead>
             <tr>
                 <th scope="col">#</th>
@@ -28,6 +31,7 @@ export default {
     data() {
         return {
             person: {},
+            spinner: true,
         }
     },
 
@@ -40,6 +44,7 @@ export default {
             api.get('/api/auth/person')
                 .then( result => {
                     //console.log(result.data.data);
+                    this.spinner = false
                     this.person = result.data.data
                 })
         }

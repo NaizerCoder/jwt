@@ -82,14 +82,15 @@ export default {
         },
 
         logout() {
-            //используем API чтобы не прокидывать token - там уже прокинуто
-            api.post('api/auth/logout') //logout на бэкенде, по факту обращение к методу logout() AuthController
-                .then(
-                    res => {
-                        localStorage.removeItem('access_token') //logout на фронтэнде, по факту удаление токена
-                        this.$router.push({name: 'user.login'})
-                    })
-
+            if(confirm('Выходим?')) {
+                //используем API чтобы не прокидывать token - там уже прокинуто
+                api.post('api/auth/logout') //logout на бэкенде, по факту обращение к методу logout() AuthController
+                    .then(
+                        res => {
+                            localStorage.removeItem('access_token') //logout на фронтэнде, по факту удаление токена
+                            this.$router.push({name: 'user.login'})
+                        })
+            }
         }
     }
 }

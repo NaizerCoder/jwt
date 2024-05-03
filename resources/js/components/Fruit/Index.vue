@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <b-spinner variant="primary" label="Spinning"></b-spinner>
+    <div v-if="spinner" class="z-2 p-5">
+        <b-spinner small variant="primary" label="Spinning"></b-spinner>
     </div>
-    <div>
-        <table class="table table-bordered w-25 mt-3">
+    <div v-if="!spinner">
+        <table class="table table-bordered z-1">
             <thead>
             <tr>
                 <th scope="col">Наименование</th>
@@ -30,6 +30,7 @@ export default {
     data() {
         return {
             fruits: {},
+            spinner: true
         }
     },
 
@@ -39,6 +40,7 @@ export default {
 
     methods: {
         getFruit() {
+            //this.spinner = true
             API.get('/api/auth/fruits')
                 // axios.get('/api/auth/fruits'
                 //     ,{
@@ -51,8 +53,10 @@ export default {
                 //     )
                 .then(res => {
                     //console.log(res);
+                    this.spinner = false
                     this.fruits = res.data.data
                 })
+
         },
 
         initApi() {
